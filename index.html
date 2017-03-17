@@ -270,7 +270,7 @@
               
                 
                 <a class="post-title-link" href="/2017/03/14/algrithm-3-dp-cut-rod/" itemprop="url">
-                  Untitled
+                  算法导论笔记动态规划DP详解-钢条切割
                 </a>
               
             
@@ -323,14 +323,239 @@
 
       
         
-          <h2 id=""><a href="#" class="headerlink" title=""></a>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/14/algrithm-3-dp-cut-rod/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <h2 id="DP和分治的相似"><a href="#DP和分治的相似" class="headerlink" title="DP和分治的相似"></a>DP和分治的相似</h2><ul>
+<li>都是通过<strong>组合子问题</strong>的解来求解原问题。</li>
+</ul>
+<p>DP中的“programming”指的是一种表格法，而非coding。</p>
+<hr>
+<h2 id="DP和分治的不同"><a href="#DP和分治的不同" class="headerlink" title="DP和分治的不同"></a>DP和分治的不同</h2><ul>
+<li>分治步骤：（例如归并排序）<ul>
+<li>将问题划分为互不相交的子问题</li>
+<li>递归地求解子问题</li>
+<li>组合子问题的解，求出原问题的解</li>
+</ul>
+</li>
+<li>对于DP：<ul>
+<li>应用于<strong>子问题重叠</strong>的情况，即<strong>不同的子问题具有公共的子子问题</strong>（子问题的求解是递归进行的，将其划分为更小的子子问题）<ul>
+<li>这种情况下分治会做很多不必要的工作，会反复求解哪些公共子问题。</li>
+<li>而DP对每个子子问题只求解一次，将其解保存在一个表格中，无需每次都重新计算，避免重复工作。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>DP通常用来求解<strong>最优化问题</strong>（optimization problem）</p>
+<ul>
+<li>这种问题可以有很多可行的解，每个解都有一个值，希望找到最优值（最大或最小）的解。称这样的解为问题的<strong>一个最优解（an optimal solution）</strong>,而不是<strong>最优解（the optimal solution）</strong>,因为可能有多个解都达到最优。</li>
+</ul>
+<h2 id="DP的四个步骤"><a href="#DP的四个步骤" class="headerlink" title="DP的四个步骤"></a>DP的四个步骤</h2><ol>
+<li>刻画一个最优解的结构特征。</li>
+<li>递归地定义最优解的值。</li>
+<li>计算最优解的值，通常采用自底向上法。</li>
+<li>利用计算出的信息构造一个最优解。</li>
+</ol>
+<p>前三步是DP求解的基础。若仅需要一个最优解的值，而非解本身，可忽略第四步。若需第四步，有时需在执行第3步的过程中维护一些额外的信息，以便构造一个最优解。</p>
+<hr>
+<h2 id="钢条切割例子"><a href="#钢条切割例子" class="headerlink" title="钢条切割例子"></a>钢条切割例子</h2><p><strong>场景</strong>：把长钢条切割为短钢条出售。切割工序本身无成本。求最佳切割方案。</p>
+<p><strong>假定</strong>：出售一段长度为 i 英寸的钢条的价格为Pi(i = 1, 2, …, )单位:$，钢条长度均为整英寸。下图为价格表。</p>
+<p><img src="https://ww1.sinaimg.cn/large/006tNbRwly1fdplo0j9kvj311u05c3z3.jpg" alt=""></p>
+<p><strong>问题描述</strong>：给定一段长度为n英寸的钢条和一个价格表，求切割方案，使销售收益Rn最大。注：若长度为n英寸的钢条的价格Pn足够大，最优解可能就是完全不需要切割。</p>
+<p>考虑长度为4的情况，下图给出了4英寸钢条的所有切割方案。</p>
+<p><img src="https://ww1.sinaimg.cn/large/006tNbRwgy1fdplrdci9pj313k0con0t.jpg" alt=""></p>
+<p>切成两段各长2英寸的钢条，将产生P2 + P2 = 5 + 5 = 10 的收益，为最优解。</p>
+<p>长度为n英寸的钢条共有2^(n-1)种不同切割方案，因为在距离钢条左端 i (i=1, 2, … , n-1)英寸处，总是可以选择切割或者不切割。用普通的加法符号表示切割方案，因此7=2+2+3表示将长度为7的钢条切割为3段：2英寸，2英寸，3英寸。</p>
+<p>若一个最优解将钢条切割为k段（1≤k≤n），那么最优切割方案    <strong>n = i1 + i2 + … + ik.</strong></p>
+<p>将钢条切割为长度分别为i1, i2, … , ik的小段，得到的最大收益为     <strong>Rn = Pi1 + Pi2+…+Pik</strong></p>
+<p>对于上面表格的价格样例，可以观察所有最优收益值Ri (i: 1~10)以及最优方案：</p>
+<p>长度为1：切割方案1=1（无切割）。最大收益R1 = 1</p>
+<p>长度为2：切割方案2=2（收益5），1+1=2（收益2）。最大收益R2 = 5</p>
+<p>长度为3：切割方案3=3（收益8），1+2=3（收益6），2+1=3（收益6）。最大收益8</p>
+<p>长度为4：切割方案4=4（收益9），1+3=4（收益9），2+2=4（收益10），3+1=4（收益9），1+1+2=4（收益7），1+2+1=4（收益7），2+1+1=4（收益7），1+1+1+1=4（收益4）。最大收益10</p>
+<p>长度为5：切割方案5=5（10），1+4=5（10），2+3=5（13），1+1+3=5（10），2+2+1=5（11），1+1+1+1+1=5（5），其他是前面的排列。最大收益13</p>
+<p>依次求出。。。</p>
+<p>更一般的，对于Rn(n≥1)，可以用更短的钢条的最优切割收益来描述它：</p>
+<p><strong>Rn = max(Pn, R1+Rn-1, R2 + Rn-2, … , Rn-1 + R1)</strong></p>
+<ul>
+<li>第一个参数Pn对应不切割，直接出售长度为n的方案。</li>
+<li>其他n-1个参数对应n-1种方案。对每个i=1,2,….,n-1，将钢条切割为长度为i和n-i的两段，接着求解这两段的最优切割收益Ri和Rn-i;(每种方案的最优收益为两段的最优收益之和)。</li>
+<li>由于无法预知哪种方案会获得最优收益，必须考察所有可能的 i ，选取其中收益最大者。若不切割时收益最大，当然选择不切割。</li>
+</ul>
+<p>注意到：</p>
+<ul>
+<li>为了求解规模为n的原问题，先求解子问题（子问题形式完全一样，但规模更小）。</li>
+<li>即首次完成切割后，将两段钢条看成两个独立的钢条切割问题实例。</li>
+<li>通过组合两个相关子问题的最优解，并在所有可能的两段切割方案中获取收益最大者，构成原问题的最优解。</li>
+</ul>
+<p>称钢条切割问题满足<strong>最优子结构性质</strong>：</p>
+<p>问题的最优解由相关子问题的最优解组合而成，而这些子问题可以独立求解。</p>
+<p>除上述解法，问题可化简为一种相似的递归：从左边切割下长度为 i 的一段，只对右边剩下的长度为 n-i 的一段进行继续切割（递归求解），对左边一段则不再进行切割。</p>
+<p>即问题分解的方式为：将长度为n的钢条分解为左边开始一段，以及剩余部分继续分解的结果。（这样，不做任何切割的方案可以描述为：第一段长度为n，收益为Pn，剩余部分长度为0，对应收益为R0 = 0）。于是得到上面公式的简化版本：</p>
+<p><img src="https://ww3.sinaimg.cn/large/006tNbRwgy1fdpm9etc8uj3098020mx3.jpg" alt=""></p>
+<p>在此公式中，原问题的最优解只包含一个相关子问题（右端剩余部分的解），而不是两个。</p>
+<p>自顶向下递归实现的伪代码：Cut-Rod(p, n)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Cut-Rod(p, n)</div><div class="line"><span class="number">1</span>    <span class="keyword">if</span> n==<span class="number">0</span></div><div class="line"><span class="number">2</span>        <span class="keyword">return</span> <span class="number">0</span></div><div class="line"><span class="number">3</span>    q = -∞</div><div class="line"><span class="number">4</span>    <span class="keyword">for</span> i = <span class="number">1</span> to n</div><div class="line"><span class="number">5</span>        q = max(q, p[i] + Cut-Rod(p, n-i))</div><div class="line"><span class="number">6</span>    <span class="keyword">return</span> q</div></pre></td></tr></table></figure>
+<p>该过程以价格数组p[1…n]和整数n为输入，返回长度为n的钢条的最大收益。</p>
+<p>若n=0，不可能有任何收益，所以第二行返回0.</p>
+<p>第3行将最大收益初始化为负无穷，以便第4第5行的for循环能正确计算。</p>
+<p><img src="https://ww1.sinaimg.cn/large/006tNbRwgy1fdpmdka616j30bf01hmx6.jpg" alt=""></p>
+<p>第6行返回结果。Java实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 钢条切割</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CutRob</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] prices = &#123;<span class="number">1</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">17</span>,<span class="number">17</span>,<span class="number">20</span>,<span class="number">24</span>,<span class="number">30</span>&#125;;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">solution</span><span class="params">(<span class="keyword">int</span> length)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(length == <span class="number">0</span>)	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		<span class="keyword">int</span> result = Integer.MIN_VALUE;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= length; i++)&#123;</div><div class="line">			result = Math.max(result, prices[i-<span class="number">1</span>] + solution(length-i));</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;= prices.length; i++)</div><div class="line">			System.out.println(<span class="string">"长度为"</span>+i+<span class="string">"的最大收益为："</span>+solution(i));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">长度为<span class="number">1</span>的最大收益为：<span class="number">1</span></div><div class="line">长度为<span class="number">2</span>的最大收益为：<span class="number">5</span></div><div class="line">长度为<span class="number">3</span>的最大收益为：<span class="number">8</span></div><div class="line">长度为<span class="number">4</span>的最大收益为：<span class="number">10</span></div><div class="line">长度为<span class="number">5</span>的最大收益为：<span class="number">13</span></div><div class="line">长度为<span class="number">6</span>的最大收益为：<span class="number">17</span></div><div class="line">长度为<span class="number">7</span>的最大收益为：<span class="number">18</span></div><div class="line">长度为<span class="number">8</span>的最大收益为：<span class="number">22</span></div><div class="line">长度为<span class="number">9</span>的最大收益为：<span class="number">25</span></div><div class="line">长度为<span class="number">10</span>的最大收益为：<span class="number">30</span></div></pre></td></tr></table></figure>
+<p>该递归很好理解，但是一旦规模较大，程序运行时间会暴涨，课本上说对n=40要好几分钟，很可能超过1小时，本次实验一下n=33. (假设从钢条长度超过10开始价格就一直保持在30美元)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CutRob</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] prices = </div><div class="line">			&#123;<span class="number">1</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">17</span>,<span class="number">17</span>,<span class="number">20</span>,<span class="number">24</span>,<span class="number">30</span>,</div><div class="line">			<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,</div><div class="line">			<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>,</div><div class="line">			<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>&#125;;</div><div class="line"><span class="comment">//	public static int[] prices = &#123;1,5,8,9,10,17,17,20,24,30&#125;;</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">solution</span><span class="params">(<span class="keyword">int</span> length)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(length == <span class="number">0</span>)	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		<span class="keyword">int</span> result = Integer.MIN_VALUE;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= length; i++)&#123;</div><div class="line">			result = Math.max(result, prices[i-<span class="number">1</span>] + solution(length-i));</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">long</span> curr = System.currentTimeMillis();</div><div class="line">		System.out.println(<span class="string">"长度为33的最大收益为："</span>+solution(<span class="number">33</span>));</div><div class="line">		System.out.println(System.currentTimeMillis() - curr);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">长度为<span class="number">33</span>的最大收益为：<span class="number">98</span></div><div class="line"><span class="number">25507</span></div></pre></td></tr></table></figure>
+<p>该递归计算结果用了几乎26秒。当输入长度继续增大，会消耗更长的时间。</p>
+<p>为什么效率这么差？原因在于，CutRob反复的用相同的参数值对自身进行递归调用，即反复的求解子问题。</p>
+<p>下图显示了n=4时的调用过程CutRob(p, n)对i=1,2,…,n调用CutRob( p,n-i )，等价于对j=0,1,…,n-1调用CutRob( p, j )，该递归展开时，所做的工作量会爆炸性增长。</p>
+<p><img src="https://ww3.sinaimg.cn/large/006tNbRwgy1fdpmj8g8gqj30pr0c4gnn.jpg" alt=""></p>
+<p>为了分析该算法运行时间，令T(n)表示第二个参数值为n时函数的调用次数。此值等于递归调用树中 根为n的子树中的节点总数，注意，此值包含了根节点对应的最初的一次调用。因此T(0)=1,且<img src="https://ww3.sinaimg.cn/large/006tNbRwgy1fdpmkl0r9qj305c01uglh.jpg" alt=""></p>
+<p>第一项 ’1’ 表示函数的第一次调用（递归调用树的根节点），T( j )为调用cutrob(p, n-i)所产生的所有调用次数。T(n) = 2^n。即该算法的运行时间为n的指数函数。</p>
+<p>回头看下，该运行时间并不令人惊讶。对于长度为n的钢条，该算法显然考察了所有2^(n-1)种可能的切割方案。递归调用树中共有2^(n-1)个叶子节点，每个叶子节点对应一种可能的切割方案。对每条从根到叶子的路径，路径上的标号给出了每次切割前右边剩余部分的长度（子问题规模）。也就是说，标号给出了对应的切割点（从钢条右端测量）。</p>
+<hr>
+<p>看完了递归解法以及其暴涨的复杂度。下面来看下用DP怎么来解决钢条切个问题。思想如下：</p>
+<ul>
+<li>已经看到，朴素递归算法之所以效率低，是因为反复求解相同的子问题。</li>
+<li>DP会仔细安排求解顺序，对每个子问题只求解一次，并将结果保存下来。如果随后再次需要次子问题的解，只需查找保存的结果，而不必重新计算。</li>
+<li>因此DP用空间来节省时间。是典型的时空权衡例子（time-memory trade-off）。</li>
+<li>如果子问题数量是输入规模的多项式函数，则可以在多项式时间内求解出每个子问题。其总时间复杂度就是多项式阶的。</li>
+</ul>
+<p>DP有两种等价的实现方法：带备忘的自顶向下法（top-down with memoization）<strong>&amp; </strong>自底向上法（bottom-up method）。</p>
+<p><strong>带备忘的自顶向下法（top-down with memoization）</strong></p>
+<ul>
+<li>此方法仍然按照自然的递归形式编写过程，但是过程会保存每个子问题的解（通常保存在一个数组或散列表中）。</li>
+<li>当需要一个子问题的解时，过程首先检查是否已经保存过此解，<ul>
+<li>如果是，则直接返回保存的值，从而节省了计算时间；</li>
+<li>否则，按照通常方式计算这个子问题。</li>
+</ul>
+</li>
+</ul>
+<p><strong>自底向上法（bottom-up method）</strong></p>
+<ul>
+<li>该方法一般需要恰当定义子问题“规模”的概念，使得任何子问题的求解都只依赖于“更小的”子问题的求解。</li>
+<li>因而可以将子问题按规模排序，按由小到大的顺序进行求解。</li>
+<li>当求解某个子问题时，所依赖的那些更小的子问题都已经求解完毕，结果已经保存。</li>
+<li>每个子问题只求解一次，当求解它时（也是第一次遇到它），所有前提子问题都已经求解完成。</li>
+</ul>
+<p>两种方法得到的算法具有相同的渐进运行时间，</p>
+<ul>
+<li>仅有的差异是在某些特殊情况下，<strong>自顶向下</strong>方法并未真正递归地考察所有可能的子问题。</li>
+<li>由于没有频繁的递归调用开销，<strong>自底向上</strong>的复杂度函数通常具有更小的系数。</li>
+</ul>
+<p>算法伪代码-<strong>带备忘的自顶向下法（top-down with memoization）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">mem-cut-rod(p, n)</div><div class="line"><span class="number">1</span>    let r[<span class="number">0</span>…n] be a <span class="keyword">new</span> array</div><div class="line"><span class="number">2</span>    <span class="keyword">for</span> i=<span class="number">0</span> to n</div><div class="line"><span class="number">3</span>        r[i] = -∞</div><div class="line"><span class="number">4</span>    <span class="keyword">return</span> mem-cut-rod-aux(p, n, r)</div><div class="line"></div><div class="line">mem-cut-rod-aux(p, n, r)</div><div class="line"><span class="number">1</span>    <span class="keyword">if</span> r[n] &gt;= <span class="number">0</span></div><div class="line"><span class="number">2</span>        <span class="keyword">return</span> r[n]</div><div class="line"><span class="number">3</span>    <span class="keyword">if</span> n == <span class="number">0</span></div><div class="line"><span class="number">4</span>        q = <span class="number">0</span></div><div class="line"><span class="number">5</span>    <span class="keyword">else</span> </div><div class="line"><span class="number">6</span>        q = -∞</div><div class="line"><span class="number">7</span>        <span class="keyword">for</span> i=<span class="number">1</span> to n</div><div class="line"><span class="number">8</span>            q = max(q, p[i] + mem-cut-rod-aux(p, n-i, r))</div><div class="line"><span class="number">9</span>    r[n] = q</div><div class="line"><span class="number">10</span>   <span class="keyword">return</span> q</div></pre></td></tr></table></figure>
+<p>主过程 mem-cut-rod(p, n)将辅助数组r[0…n]初始化为负无穷，然后调用辅助过程mem-cut-rod-aux(最初cut-rob引入备忘机制的版本)。伪代码解读：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">首先检查所需值是否已知（第<span class="number">1</span>行）;</div><div class="line">如果是，则第<span class="number">2</span>行直接返回保存的值;</div><div class="line">否则第<span class="number">3</span>~<span class="number">8</span>行用通常方法计算所需值q;</div><div class="line">第<span class="number">9</span>行将q存入r[n]中;</div><div class="line">第<span class="number">10</span>行返回;</div></pre></td></tr></table></figure>
+<hr>
+<p>再来看看自底向上版本，更为简单：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">bottom-up-cut-rod(p, n)</div><div class="line"><span class="number">1</span>    let r[<span class="number">0</span>…n] be a <span class="keyword">new</span> array</div><div class="line"><span class="number">2</span>    r[<span class="number">0</span>] = <span class="number">0</span></div><div class="line"><span class="number">3</span>    <span class="keyword">for</span> j=<span class="number">1</span> to n</div><div class="line"><span class="number">4</span>        q = -∞</div><div class="line"><span class="number">5</span>        <span class="keyword">for</span> i=<span class="number">1</span> to j</div><div class="line"><span class="number">6</span>            q = max(q, p[i] + r[j-i])</div><div class="line"><span class="number">7</span>        r[j] = q</div><div class="line"><span class="number">8</span>    <span class="keyword">return</span> r[n]</div></pre></td></tr></table></figure>
+<p>自底向上版本采用子问题的自然顺序：若i&lt;j，则规模为i的子问题比规模为j的子问题“更小”。因此，过程依次求解规模为j=0,1,…,n的子问题。伪代码详解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">第<span class="number">1</span>行创建一个新数组r[<span class="number">0</span>...n]来保存子问题的解；</div><div class="line">第<span class="number">2</span>行将r[<span class="number">0</span>]初始化为<span class="number">0</span>，因为长度为<span class="number">0</span>的钢条没有收益；</div><div class="line">第<span class="number">3</span>~<span class="number">6</span>行对j=<span class="number">1</span>...n按升序求解每个规模为j的子问题。求解方法与cut-rod采用的方法相同，只是现在直接访问数组元素r[j-i]来获取规模为j-i的子问题的解，而不必进行递归调用；</div><div class="line">第<span class="number">7</span>行将规模为 j 的子问题的解存入r[j]；</div><div class="line">第<span class="number">8</span>行返回r[n],即最优解</div></pre></td></tr></table></figure>
+<p>两种方法具有相同的渐进运行时间。</p>
+<p><strong>bottom-up-cut-rod</strong> 主体是嵌套的双层循环，内层循环（5~6行）的迭代次数构成一个等差数列和，不难分析时间为n^2.</p>
+<p><strong>mem-cut-rod</strong> 运行时间也是n^2，其分析略难：当求解一个之前已经计算出结果的子问题时，递归调用会立即返回，即每个子问题只求解一次，而它求解了规模为0，1，。。。，n的子问题；为求解规模为n的子问题，第6~7行的循环会迭代n次；因此进行的所有递归调用执行此for循环的迭代次数也是一个等差数列，其和也是n^2。</p>
+<hr>
+<p>再来看看Java实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CutRob</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] prices = &#123;<span class="number">1</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">17</span>,<span class="number">17</span>,<span class="number">20</span>,<span class="number">24</span>,<span class="number">30</span>&#125;;	</div><div class="line">    <span class="comment">/** 自顶向下*/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">mem_cut_rod</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[n+<span class="number">1</span>];			<span class="comment">// 辅助数组dp</span></div><div class="line">		Arrays.fill(dp, Integer.MIN_VALUE);  <span class="comment">// 初始化为负无穷</span></div><div class="line">		<span class="keyword">return</span> mem_cut_rod_aux(n, dp);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/** 自顶向下法的辅助函数*/</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">mem_cut_rod_aux</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>[] dp)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span>(dp[n] &gt;= <span class="number">0</span>)	<span class="keyword">return</span> dp[n]; <span class="comment">// 如果子问题已经解过，直接返回</span></div><div class="line">		<span class="keyword">int</span> max = Integer.MIN_VALUE;</div><div class="line">		<span class="keyword">if</span>(n==<span class="number">0</span>)	max = <span class="number">0</span>;		  <span class="comment">// 如果长度为0，则最大收益为0</span></div><div class="line">		<span class="keyword">else</span>&#123;					    <span class="comment">// 长度若不为0</span></div><div class="line">	    	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i&lt;=n; i++)	<span class="comment">// 找到最大收益</span></div><div class="line">				max = Math.max(max, prices[i-<span class="number">1</span>] + mem_cut_rod_aux(n-i, dp));</div><div class="line">		&#125;</div><div class="line">        dp[n] = max;	        <span class="comment">// 把计算得到的最大收益存入结果</span></div><div class="line">		<span class="keyword">return</span> max;				<span class="comment">// 返回结果</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=prices.length; i++)</div><div class="line">            System.out.println(<span class="string">"长度为"</span>+i+<span class="string">"的最大收益为："</span>+mem_cut_rod(i));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">长度为1的最大收益为：1</div><div class="line">长度为2的最大收益为：5</div><div class="line">长度为3的最大收益为：8</div><div class="line">长度为4的最大收益为：10</div><div class="line">长度为5的最大收益为：13</div><div class="line">长度为6的最大收益为：17</div><div class="line">长度为7的最大收益为：18</div><div class="line">长度为8的最大收益为：22</div><div class="line">长度为9的最大收益为：25</div><div class="line">长度为10的最大收益为：30</div></pre></td></tr></table></figure>
+<p>自底向上：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CutRob</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] prices = &#123;<span class="number">1</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">17</span>,<span class="number">17</span>,<span class="number">20</span>,<span class="number">24</span>,<span class="number">30</span>&#125;;</div><div class="line">        <span class="comment">/** 自底向上法*/</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">bottom_up_cut_rod</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">	    <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[n+<span class="number">1</span>];</div><div class="line">	    dp[<span class="number">0</span>] = <span class="number">0</span>;</div><div class="line">	    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; j++)&#123;</div><div class="line">		<span class="keyword">int</span> max = Integer.MIN_VALUE;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=j; i++)&#123;</div><div class="line">		    max = Math.max(max, prices[i-<span class="number">1</span>] + dp[j-i]);</div><div class="line">		&#125;</div><div class="line">		dp[j] = max;</div><div class="line">	    &#125;</div><div class="line">	    <span class="keyword">return</span> dp[n];</div><div class="line">	&#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=prices.length; i++)</div><div class="line">            System.out.println(<span class="string">"长度为"</span>+i+<span class="string">"的最大收益为："</span>+bottom_up_cut_rod(i));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p>下面来从运行结果的时间上做一个对比，这里拿自底向上法来和前面的递归做对比。</p>
+<p>上面的朴素递归只把输入的n增加到33，就运行了25507毫秒。下面来看下自底向上。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">public class CutRob &#123;</div><div class="line">    public static int[] prices = </div><div class="line">			&#123;1,5,8,9,10,17,17,20,24,30,</div><div class="line">			30,30,30,30,30,30,30,30,30,30,</div><div class="line">			30,30,30,30,30,30,30,30,30,30,</div><div class="line">			30,30,30,30,30,30,30,30,30,30,</div><div class="line">			30,30,30,30,30,30,30,30,30,30,</div><div class="line">			30,30,30&#125;;</div><div class="line">//	public static int[] prices = &#123;1,5,8,9,10,17,17,20,24,30&#125;;</div><div class="line">    /** 自底向上法*/</div><div class="line">    private static int bottom_up_cut_rod(int n)&#123;</div><div class="line">		int[] dp = new int[n+1];</div><div class="line">		dp[0] = 0;</div><div class="line">		for(int j=1; j&lt;=n; j++)&#123;</div><div class="line">	    	int max = Integer.MIN_VALUE;</div><div class="line">	    	for(int i=1; i&lt;=j; i++)&#123;</div><div class="line">				max = Math.max(max, prices[i-1] + dp[j-i]);</div><div class="line">	    	&#125;</div><div class="line">	    	dp[j] = max;</div><div class="line">		&#125;</div><div class="line">		return dp[n];</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">		long curr = System.currentTimeMillis();</div><div class="line">		System.out.println(“长度为53的最大收益为："+bottom_up_cut_rod(53));</div><div class="line">		System.out.println(System.currentTimeMillis() - curr);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>用自底向上把输入增加到53，整个过程也就运行了1毫秒。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">输出：</div><div class="line">长度为<span class="number">53</span>的最大收益为：<span class="number">158</span></div><div class="line"><span class="number">1</span></div></pre></td></tr></table></figure>
+<hr>
+<p><strong>子问题图：</strong></p>
+<p>当思考一个DP问题时，应弄清楚所涉及的<strong>子问题以及子问题之间的依赖关系</strong>。</p>
+<p>问题的子问题图准确的表达了这些信息。下图展示了n=4时钢条切割问题的子问题图。</p>
+<p><img src="https://ww1.sinaimg.cn/large/006tNbRwly1fdpncot1kmj30gs0jg76c.jpg" alt=""></p>
+<p>它是一个有向图，每个顶点唯一对应一个子问题。</p>
+<p>若求子问题x的最优解时需要直接用到子问题y的最优解，那么在子问题图中就会有一条从子问题x的顶点到子问题y的顶点的有向边。</p>
+<ul>
+<li>例如，若自顶向下过程在求解x时需要直接递归调用自身来求解y，那么子问题图就包含从x到y的一条有向边。</li>
+<li>可以将子问题图看做自顶向下递归调用树的“简化版”或“收缩版”，因为树中所有对应相同子问题的节点合并为图中的单一顶点，相关的所有边都从父节点指向子节点。</li>
+</ul>
+<p>自底向上的DP方法处理子问题图中顶点的顺序为：对于一个给定的子问题x，在求解它之前求解邻接至它的子问题y。</p>
+<ul>
+<li>用22章的术语说，自底向上动态规划算法是按“逆拓扑排序”或者“反序的拓扑排序”来处理子问题图中的顶点。</li>
+<li>换句话说，对于任何子问题，直至它所依赖的所有子问题均已求解完成，才会求解它。</li>
+<li>类似的，可以用22章中的术语“深搜”来描述（带备忘机制的）自顶向下动态规划算法处理子问题图的顺序。（22.3节）</li>
+</ul>
+<p>子问题图G = ( V, E )的规模可以帮助我们确定DP算法的运行时间。</p>
+<ul>
+<li>由于每个子问题只求解一次，因此算法运行时间等于每个子问题求解时间之和。</li>
+<li>通常，一个子问题的求解时间与子问题图中对应顶点的度（出射边的数目）成正比，而子问题的数目等于子问题图的顶点数。</li>
+<li>因此，DP算法运行时间与顶点和边的数量成线性关系。</li>
+</ul>
+<hr>
+<p><strong>重构解</strong></p>
+<p>前文给出的钢条切割DP算法返回最优解的收益值，并未返回解本身（一个长度列表，给出切割后每段钢条的长度）。</p>
+<p>我们可以扩展DP算法，使之对于每个问题不仅保存最优收益值，还保存对应的切割方案。利用这些信息，就能输出最优解。</p>
+<p>下面给出bottom-up-cut-rob的扩展版本，它对于长度为j 的钢条不仅计算最大收益值Rj, 还保存最优解对应的第一段钢条的切割长度Sj：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">extended-bottom-up-cut-rod(p, n)</div><div class="line"><span class="number">1</span>    let r[<span class="number">0</span>…n] and s[<span class="number">0</span>…n] be <span class="keyword">new</span> arrays</div><div class="line"><span class="number">2</span>    r[<span class="number">0</span>] = <span class="number">0</span></div><div class="line"><span class="number">3</span>    <span class="keyword">for</span> j=<span class="number">1</span> to n</div><div class="line"><span class="number">4</span>        q = -∞</div><div class="line"><span class="number">5</span>        <span class="keyword">for</span> i=<span class="number">1</span> to j</div><div class="line"><span class="number">6</span>            <span class="keyword">if</span> q &lt; p[i]+r[j-i]</div><div class="line"><span class="number">7</span>                q = p[i]+r[j-i]</div><div class="line"><span class="number">8</span>                s[j] = i</div><div class="line"><span class="number">9</span>        r[j] = q</div><div class="line"><span class="number">10</span>    <span class="keyword">return</span> r and s</div></pre></td></tr></table></figure>
+<p>此过程和bottom-up-cut-rob很相似，差别只是在第1行创建了数组s，并在求解规模为j的子问题时，将第一段钢条的最优切割长度i保存在s[ j ]中（第8行）。</p>
+<p>下面的过程接受两个参数：价格表p和钢条长度n，然后调用extended-bottom-up-cut-rod来计算切割下来的每段钢条的长度s[1…n]，最后输出长度为n的钢条的完整的最优切割方案：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">print-cut-rob-solution(p, n)</div><div class="line"><span class="number">1</span>    (r, s) = extended-bottom-up-cut-rod(p, n)</div><div class="line"><span class="number">2</span>    <span class="keyword">while</span> n&gt;<span class="number">0</span></div><div class="line"><span class="number">3</span>        print s[n]</div><div class="line"><span class="number">4</span>        n = n-s[n]</div></pre></td></tr></table></figure>
+<p>对于前文给出的钢条切割实例，extended-bottom-up-cut-rod(p, 10)会返回下面的数组：</p>
+<p><strong>这个表一定要根据代码逻辑亲手画一遍。体会其构建过程。</strong> </p>
+<table>
+<thead>
+<tr>
+<th>i</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r [ i ]</td>
+<td>0</td>
+<td>1</td>
+<td>5</td>
+<td>8</td>
+<td>10</td>
+<td>13</td>
+<td>17</td>
+<td>18</td>
+<td>22</td>
+<td>25</td>
+<td>30</td>
+</tr>
+<tr>
+<td>s [ i ]</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>2</td>
+<td>6</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>对此例调用print-cut-rod-solution(p,10)只会输出10，但对n=7，会输出最优方案R7切割出的两段钢条长度1和6。看看Java代码实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CutRob</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] prices = &#123;<span class="number">1</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">17</span>,<span class="number">17</span>,<span class="number">20</span>,<span class="number">24</span>,<span class="number">30</span>&#125;;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[] path; </div><div class="line">	<span class="comment">/** 带切割方案的自底向上扩展方案*/</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">extended_bottom_up_cut_rod</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">	    <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[n+<span class="number">1</span>];</div><div class="line">	    path = <span class="keyword">new</span> <span class="keyword">int</span>[n+<span class="number">1</span>];</div><div class="line">	    dp[<span class="number">0</span>] = <span class="number">0</span>;</div><div class="line">	    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j&lt;=n; j++)&#123;</div><div class="line">			<span class="keyword">int</span> max = Integer.MIN_VALUE;</div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=j; i++)&#123;</div><div class="line">		    	<span class="keyword">if</span>(max &lt; (prices[i-<span class="number">1</span>] + dp[j-i]))&#123;</div><div class="line">					max = prices[i-<span class="number">1</span>] + dp[j-i];</div><div class="line">					path[j] = i;</div><div class="line">		    	&#125;</div><div class="line">			&#125;</div><div class="line">			dp[j] = max;</div><div class="line">	    &#125;</div><div class="line">	    <span class="keyword">return</span> dp[n];</div><div class="line">	&#125;</div><div class="line">    <span class="comment">/** 得到切割方案(一个最优解)*/</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;Integer&gt; <span class="title">getACutSolution</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">		ArrayList&lt;Integer&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">while</span>(n &gt; <span class="number">0</span>)&#123;</div><div class="line">	    	result.add(path[n]);</div><div class="line">            n -= path[n];</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"长度为7的最大收益为："</span>+extended_bottom_up_cut_rod(<span class="number">7</span>));</div><div class="line">		System.out.println(getACutSolution(<span class="number">7</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">输出：</div><div class="line">长度为7的最大收益为：18</div><div class="line">[1, 6]</div></pre></td></tr></table></figure>
+<p>至此，对DP有了一个刚刚开始的了解。</p>
+
+          
         
       
     </div>
@@ -688,7 +913,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">tags</span>
               
             </div>
