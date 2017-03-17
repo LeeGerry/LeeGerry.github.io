@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="algrithm dp cut_rod," />
 
 
 
@@ -87,12 +87,66 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Gerry">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="DP和分治的相似
+都是通过组合子问题的解来求解原问题。
+
+DP中的“programming”指的是一种表格法，而非coding。
+
+DP和分治的不同
+分治步骤：（例如归并排序）
+将问题划分为互不相交的子问题
+递归地求解子问题
+组合子问题的解，求出原问题的解
+
+
+对于DP：
+应用于子问题重叠的情况，即不同的子问题具有公共的子子问题（子问题的求解是递归进行的，将其划分为更小的子子问题）
+这种情况下分治">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法导论笔记动态规划DP详解-钢条切割">
+<meta property="og:url" content="http://yoursite.com/2017/03/14/algrithm-3-dp-cut-rod/index.html">
 <meta property="og:site_name" content="Gerry">
+<meta property="og:description" content="DP和分治的相似
+都是通过组合子问题的解来求解原问题。
+
+DP中的“programming”指的是一种表格法，而非coding。
+
+DP和分治的不同
+分治步骤：（例如归并排序）
+将问题划分为互不相交的子问题
+递归地求解子问题
+组合子问题的解，求出原问题的解
+
+
+对于DP：
+应用于子问题重叠的情况，即不同的子问题具有公共的子子问题（子问题的求解是递归进行的，将其划分为更小的子子问题）
+这种情况下分治">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/006tNbRwly1fdplo0j9kvj311u05c3z3.jpg">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/006tNbRwgy1fdplrdci9pj313k0con0t.jpg">
+<meta property="og:image" content="https://ww3.sinaimg.cn/large/006tNbRwgy1fdpm9etc8uj3098020mx3.jpg">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/006tNbRwgy1fdpmdka616j30bf01hmx6.jpg">
+<meta property="og:image" content="https://ww3.sinaimg.cn/large/006tNbRwgy1fdpmj8g8gqj30pr0c4gnn.jpg">
+<meta property="og:image" content="https://ww3.sinaimg.cn/large/006tNbRwgy1fdpmkl0r9qj305c01uglh.jpg">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/006tNbRwly1fdpncot1kmj30gs0jg76c.jpg">
+<meta property="og:updated_time" content="2017-03-17T03:00:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Gerry">
+<meta name="twitter:title" content="算法导论笔记动态规划DP详解-钢条切割">
+<meta name="twitter:description" content="DP和分治的相似
+都是通过组合子问题的解来求解原问题。
+
+DP中的“programming”指的是一种表格法，而非coding。
+
+DP和分治的不同
+分治步骤：（例如归并排序）
+将问题划分为互不相交的子问题
+递归地求解子问题
+组合子问题的解，求出原问题的解
+
+
+对于DP：
+应用于子问题重叠的情况，即不同的子问题具有公共的子子问题（子问题的求解是递归进行的，将其划分为更小的子子问题）
+这种情况下分治">
+<meta name="twitter:image" content="https://ww1.sinaimg.cn/large/006tNbRwly1fdplo0j9kvj311u05c3z3.jpg">
 
 
 
@@ -120,13 +174,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/14/algrithm-3-dp-cut-rod/"/>
 
 
 
 
 
-  <title> Gerry </title>
+  <title> 算法导论笔记动态规划DP详解-钢条切割 | Gerry </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -151,9 +205,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -236,9 +288,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -268,10 +320,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/03/14/algrithm-3-dp-cut-rod/" itemprop="url">
-                  算法导论笔记动态规划DP详解-钢条切割
-                </a>
+                算法导论笔记动态规划DP详解-钢条切割
               
             
           </h1>
@@ -322,9 +371,7 @@
       
 
       
-        
-          
-            <h2 id="DP和分治的相似"><a href="#DP和分治的相似" class="headerlink" title="DP和分治的相似"></a>DP和分治的相似</h2><ul>
+        <h2 id="DP和分治的相似"><a href="#DP和分治的相似" class="headerlink" title="DP和分治的相似"></a>DP和分治的相似</h2><ul>
 <li>都是通过<strong>组合子问题</strong>的解来求解原问题。</li>
 </ul>
 <p>DP中的“programming”指的是一种表格法，而非coding。</p>
@@ -555,309 +602,66 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">输出：</div><div class="line">长度为7的最大收益为：18</div><div class="line">[1, 6]</div></pre></td></tr></table></figure>
 <p>至此，对DP有了一个刚刚开始的了解。</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/08/lc-roman-int/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gerry">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Gerry">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/08/lc-roman-int/" itemprop="url">
-                  LC12&13 Roman_Integer
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-08T15:53:16-06:00">
-                2017-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/algrithm-dp-cut-rod/" rel="tag"># algrithm dp cut_rod</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
         
-          
-            <h2 id="LC12-Integer-to-Roman"><a href="#LC12-Integer-to-Roman" class="headerlink" title="LC12. Integer to Roman "></a>LC12. Integer to Roman </h2><p>Given an integer, convert it to a roman numeral.<br>Input is guaranteed to be within the range from 1 to 3999.<br><strong>罗马数字拼写规则：</strong></p>
-<blockquote>
-<p>罗马数字共7个：I（1）、V（5）、X（10）、L（50）、C（100）、D（500）和M（1000）。可以表示任意正整数。</p>
-</blockquote>
-<p>以下是规则：</p>
-<ul>
-<li>重复次数：一个罗马数字重复几次，就表示这个数的几倍。</li>
-<li>右加左减：<ul>
-<li>左大右小，则大数加小数；</li>
-<li>左小右大，则大数减小数；</li>
-<li>左减的数字有限制，仅限于( I X C )。比如45不能写成VL，只能是XLV。</li>
-<li>左减不可以跨越一个位值。比如99不可以使用IC（100-1）表示，而是用XCIX（100-10）+ （10-1）表示。等同于阿拉伯数字每位数字分别表示。</li>
-<li>左减数字必须为1位，比如8写成VIII，而不是IIX。</li>
-<li>右加数字不可以连续超过3位，比如14写成XIV，而非XIIII。</li>
-</ul>
-</li>
-<li>加线乘千：在罗马数字的上方加上一条横线或者加上下标的M表示将该数乘以1000.</li>
-<li>同理：如果上面有两条线，则是原数的1,000,000倍。</li>
-<li>数码限制：<ul>
-<li>同一个数码最多只能连续出现3次，如40不能表示为XXXX（10+10+10+10），而要表示为XL（50-10）。</li>
-<li>例外：由于IV是古罗马神话主神朱庇特的首字，因此有使用IIII代替IV来表示4。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IntRoman</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">intToRoman</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (num &lt;= <span class="number">0</span>) 	<span class="keyword">return</span> <span class="string">""</span>;<span class="comment">// 只能表示正整数</span></div><div class="line">		String[] symbol = &#123; <span class="string">"M"</span>, <span class="string">"CM"</span>, <span class="string">"D"</span>, <span class="string">"CD"</span>, <span class="string">"C"</span>, <span class="string">"XC"</span>, <span class="string">"L"</span>, <span class="string">"XL"</span>, <span class="string">"X"</span>, <span class="string">"IX"</span>, <span class="string">"V"</span>, <span class="string">"IV"</span>, <span class="string">"I"</span> &#125;;<span class="comment">// 符号表</span></div><div class="line">		<span class="keyword">int</span>[] values = &#123; <span class="number">1000</span>, <span class="number">900</span>, <span class="number">500</span>, <span class="number">400</span>, <span class="number">100</span>, <span class="number">90</span>, <span class="number">50</span>, <span class="number">40</span>, <span class="number">10</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">1</span> &#125;;<span class="comment">// 符号表对应的值</span></div><div class="line">		StringBuilder result = <span class="keyword">new</span> StringBuilder();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; num != <span class="number">0</span>; i++) &#123; <span class="comment">// 从大值往小值减</span></div><div class="line">			<span class="keyword">while</span> (num &gt;= values[i]) &#123;</div><div class="line">				num -= values[i];</div><div class="line">				result.append(symbol[i]); <span class="comment">// 把减掉的值所对应的符号附加到结果字符串后面</span></div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> result.toString();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="LC13-Roman-to-Integer"><a href="#LC13-Roman-to-Integer" class="headerlink" title="LC13. Roman to Integer"></a>LC13. Roman to Integer</h2><p>Given a roman numeral, convert it to an integer.<br>Input is guaranteed to be within the range from 1 to 3999.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">romanToInt</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">        <span class="comment">// 构造基本符号集合</span></div><div class="line">        Map&lt;Character, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">        map.put(<span class="string">'I'</span>,<span class="number">1</span>);map.put(<span class="string">'V'</span>,<span class="number">5</span>);map.put(<span class="string">'X'</span>,<span class="number">10</span>);</div><div class="line">		map.put(<span class="string">'L'</span>,<span class="number">50</span>);map.put(<span class="string">'C'</span>,<span class="number">100</span>);map.put(<span class="string">'D'</span>,<span class="number">500</span>);map.put(<span class="string">'M'</span>,<span class="number">1000</span>);</div><div class="line">		<span class="keyword">int</span> total = map.get(s.charAt(<span class="number">0</span>));</div><div class="line">		<span class="keyword">int</span> prev, curr;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i&lt;s.length(); i++)&#123;</div><div class="line">		    prev = map.get(s.charAt(i - <span class="number">1</span>));</div><div class="line">		    curr = map.get(s.charAt(i));</div><div class="line">		    <span class="keyword">if</span>(curr &lt;= prev) total += curr;</div><div class="line">		    <span class="keyword">else</span>             total = total - <span class="number">2</span> * prev + curr;</div><div class="line">		&#125;</div><div class="line">	<span class="keyword">return</span> total;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/05/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gerry">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Gerry">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/03/08/lc-roman-int/" rel="next" title="LC12&13 Roman_Integer">
+                <i class="fa fa-chevron-left"></i> LC12&13 Roman_Integer
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2017/03/05/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-05T15:46:20-06:00">
-                2017-03-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -865,6 +669,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -884,8 +692,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -938,6 +755,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DP和分治的相似"><span class="nav-number">1.</span> <span class="nav-text">DP和分治的相似</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DP和分治的不同"><span class="nav-number">2.</span> <span class="nav-text">DP和分治的不同</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DP的四个步骤"><span class="nav-number">3.</span> <span class="nav-text">DP的四个步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#钢条切割例子"><span class="nav-number">4.</span> <span class="nav-text">钢条切割例子</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1043,6 +876,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
