@@ -92,3 +92,38 @@ private fun DisposableEffectTest() {
   * 使用 context 作 key：表示“当 context 变化时，请帮我自动清理旧的监听并用新的 context 注册新的监听”，这是一种更健壮的写法。
 
 当需要在 Composable 的生命周期内安全地使用那些需要成对的 register/unregister 或 subscribe/unsubscribe 方法的传统 Android API 时，DisposableEffect 是首选工具。
+
+## rememberCoroutineScope - 在用户事件回调中启动协程
+```Kotlin
+
+@Composable
+private fun RememberCoroutineScopeTest() {
+    Box(Modifier.safeContentPadding()) {
+        val scope = rememberCoroutineScope()
+        val snackState = remember { SnackbarHostState() }
+        Scaffold(snackbarHost = { SnackbarHost(snackState) }) {
+            Button(
+                onClick = {
+                    scope.launch {
+                        println("start time consuming task...")
+                        delay(2000L)
+                        println("end time consuming task...")
+                        snackState.showSnackbar("Task completed")
+                    }
+                },
+            ) {
+                Text("Click")
+            }
+        }
+    }
+}
+```
+场景： LaunchedEffect 是自动触发的。但如果想在用户点击一个按钮后，才去执行一个耗时操作（比如上传文件或保存数据到数据库），应该怎么办？这时就需要 rememberCoroutineScope。
+工作流程:
+1. rememberCoroutineScope() 创建一个 CoroutineScope。这个 scope 会在 Composable 离开组合时自动取消所有它启动的子协程。
+2. 当用户点击按钮时，onClick lambda 被触发。
+3. 使用 scope.launch 在这个与 UI 生命周期绑定的作用域中安全地启动一个协程。
+4. 即使用户在 delay(1500L) 完成前离开这个界面，该协程也会被自动取消，防止了不必要的工作和潜在的崩溃。
+与 LaunchedEffect 的区别：
+* LaunchedEffect: 自动在 key 变化时执行。
+* rememberCoroutineScope: 提供一个 scope，在事件回调（如 onClick）中启动协程。
